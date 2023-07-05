@@ -1,14 +1,17 @@
 import React from "react";
 
 import "./LocationAndDate.css";
+import { getCurrentWeather } from "../../store/currentWeatherSlice";
+import { useSelector } from "react-redux";
 
-const locationAndDate = (props) => {
+const LocationAndDate = () => {
+  const currentWeatherData = useSelector(getCurrentWeather) 
   return (
     <div className="location-and-date">
-      <h1 className="location-and-date__location">London, UK</h1>
-      <div>Sunday 4th August</div>
+      <h1 className="location-and-date__location">{currentWeatherData.location}</h1>
+      <div>{currentWeatherData.date}</div>
     </div>
   );
 };
 
-export default locationAndDate;
+export default LocationAndDate;
