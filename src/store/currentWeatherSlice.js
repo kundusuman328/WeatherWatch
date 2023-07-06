@@ -1,23 +1,50 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import Axios from "axios";
 
 const initialState ={
-    location: "Balotra, IN",
-    date: "Wednesday, 5th July",
-    icon: "11d",
-    temperature: "31",
-    summary: "Cloudy",
-    high: "34",
-    low: "28",
-    wind: "12",
-    rain: "70",
-    sunrise: "05:32",
-    sunset: "18:20",
+    location: "",
+    date: "",
+    icon: "",
+    temperature: "",
+    summary: "",
+    feels_like: "",
+    rain: "",
+    wind: "",
+    direction:"",
+    sunrise: "",
+    sunset: "",
   }
+
+export const initCurrentWeather = createAsyncThunk("currentWeather/initCurrentWeather", async ({lat,lng}) => {
+
+    console.log('lat:', lat);
+  console.log('lng:', lng);
+    const response = await Axios.get(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=0c5f6dbc0ecefe58edae3e8122fd4127&unit=metric`
+      )
+      return response.data
+  })
 
 const currentWeatherSlice = createSlice({
     name:"currentWeather",
     initialState,
-    reducers:{}
+    reducers:{},
+    extraReducers(builder) {
+        builder
+        .addCase(initCurrentWeather.fulfilled,(state,action) => {
+            state.location = action.payload.name + ", " + action.payload.sys.country
+            state.date = action.payload.dt
+            state.icon = action.payload.weather[0].icon
+            state.temperature = parseInt(action.payload.main.temp - 273.15)
+            state.summary = action.payload.weather[0].description
+            state.feels_like = parseInt(action.payload.main.feels_like - 273.15)
+            state.rain = action.payload.clouds.all
+            state.wind = parseInt(action.payload.wind.speed * 3.6)
+            state.direction = parseInt(action.payload.wind.deg)
+            state.sunrise = action.payload.sys.sunrise
+            state.sunset = action.payload.sys.sunset
+        })
+    }
 })
 
 export const getCurrentWeather = (state) => state.currentWeather

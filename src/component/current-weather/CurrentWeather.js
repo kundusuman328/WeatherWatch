@@ -8,6 +8,7 @@ import svg4 from "../../svg/04.svg";
 import svg9 from "../../svg/09.svg";
 import svg10 from "../../svg/10.svg";
 import svg11 from "../../svg/11.svg";
+import convertDegreeToDirection from "../../utils/convertDegreeToDirection"
 import { getCurrentWeather } from "../../store/currentWeatherSlice";
 import { useSelector } from "react-redux";
 
@@ -41,6 +42,14 @@ const CurrentWeather = () => {
         icon = null;
     }
 
+    const sunriseDate = new Date(currentWeatherData.sunrise * 1000)
+    const sunriseTime = sunriseDate.toLocaleTimeString('en-US')
+    const sunsetDate = new Date(currentWeatherData.sunset * 1000)
+    const sunsetTime = sunsetDate.toLocaleTimeString('en-US')
+
+    const direction = convertDegreeToDirection(currentWeatherData.direction)
+
+
   return (
     <>
       <div className="current-temperature">
@@ -55,21 +64,21 @@ const CurrentWeather = () => {
 
       <div className="current-stats">
         <div>
-          <div className="current-stats__value">{currentWeatherData.high}&deg;</div>
-          <div className="current-stats__label">High</div>
-          <div className="current-stats__value">{currentWeatherData.low}&deg;</div>
-          <div className="current-stats__label">Low</div>
-        </div>
-        <div>
-          <div className="current-stats__value">{currentWeatherData.wind}mph</div>
-          <div className="current-stats__label">Wind</div>
+          <div className="current-stats__value">{currentWeatherData.feels_like}&deg;</div>
+          <div className="current-stats__label">Feels like</div>
           <div className="current-stats__value">{currentWeatherData.rain}%</div>
           <div className="current-stats__label">Rain</div>
         </div>
         <div>
-          <div className="current-stats__value">{currentWeatherData.sunsrise}</div>
+          <div className="current-stats__value">{currentWeatherData.wind}kmph</div>
+          <div className="current-stats__label">Wind</div>
+          <div className="current-stats__value">{direction}</div>
+          <div className="current-stats__label">Direction</div>
+        </div>
+        <div>
+          <div className="current-stats__value">{sunriseTime}</div>
           <div className="current-stats__label">Sunrise</div>
-          <div className="current-stats__value">{currentWeatherData.sunset}</div>
+          <div className="current-stats__value">{sunsetTime}</div>
           <div className="current-stats__label">Sunset</div>
         </div>
       </div>
