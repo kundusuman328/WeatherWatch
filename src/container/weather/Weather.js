@@ -7,6 +7,7 @@ import LocationAndDate from "../../component/location-and-date/LocationAndDate";
 import CurrentWeather from "../../component/current-weather/CurrentWeather";
 import { useDispatch } from "react-redux";
 import { initCurrentWeather } from "../../store/currentWeatherSlice";
+import HourlyWeather from "../../component/hourly-weather/HourlyWeather";
 
 const Weather = () => {
   const dispatch = useDispatch()
@@ -26,6 +27,7 @@ const Weather = () => {
         <div className="main-container">
           <LocationAndDate />
           <CurrentWeather />
+          <HourlyWeather/>
         </div>
       </div>
   )

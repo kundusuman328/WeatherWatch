@@ -13,16 +13,15 @@ const initialState ={
     direction:"",
     sunrise: "",
     sunset: "",
+    error:"",
+    status:"idle" // "loading" | "succeeded" | "failed"
   }
 
 export const initCurrentWeather = createAsyncThunk("currentWeather/initCurrentWeather", async ({lat,lng}) => {
-
-    console.log('lat:', lat);
-  console.log('lng:', lng);
-    const response = await Axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=0c5f6dbc0ecefe58edae3e8122fd4127&unit=metric`
-      )
-      return response.data
+        const response = await Axios.get(
+            `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=0c5f6dbc0ecefe58edae3e8122fd4127&unit=metric`
+          )
+          return response.data
   })
 
 const currentWeatherSlice = createSlice({
@@ -43,6 +42,13 @@ const currentWeatherSlice = createSlice({
             state.direction = parseInt(action.payload.wind.deg)
             state.sunrise = action.payload.sys.sunrise
             state.sunset = action.payload.sys.sunset
+            state.status = "succeeded"
+        })
+        .addCase(initCurrentWeather.pending, (state,action) => {
+            state.status = "loading"
+        }).addCase(initCurrentWeather.rejected, (state,action) => {
+            state.status = "failed"
+            state.error = action.error.message
         })
     }
 })
