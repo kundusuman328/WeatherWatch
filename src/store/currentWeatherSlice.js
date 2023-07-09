@@ -13,7 +13,7 @@ const initialState ={
     direction:"",
     sunrise: "",
     sunset: "",
-    error:"",
+    error: null,
     status:"idle" // "loading" | "succeeded" | "failed"
   }
 

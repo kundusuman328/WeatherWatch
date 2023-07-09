@@ -5,6 +5,7 @@ import convertDegreeToDirection from "../../utils/convertDegreeToDirection"
 import { getCurrentWeather } from "../../store/currentWeatherSlice";
 import { useSelector } from "react-redux";
 import getIcon from "../../utils/getIcon";
+import Spinner from "../Spinner/Spinner";
 
 
 
@@ -19,11 +20,14 @@ const CurrentWeather = () => {
     const sunsetTime = sunsetDate.toLocaleTimeString('en-US')
 
     const direction = convertDegreeToDirection(currentWeatherData.direction)
-
-
-  return (
-    <>
-      <div className="current-temperature">
+    
+    let content;
+    if(currentWeatherData.status === "loading"){
+      content = <Spinner/>
+    }else if(currentWeatherData.status === "succeeded"){
+      content = (
+        <>
+        <div className="current-temperature">
         <div className="current-temperature__icon-container">
           <img src={icon} className="current-temperature__icon" alt="" />
         </div>
@@ -53,8 +57,14 @@ const CurrentWeather = () => {
           <div className="current-stats__label">Sunset</div>
         </div>
       </div>
-    </>
-  );
+      </>
+      )
+    }else if(currentWeatherData.status === "failed"){
+      content = currentWeatherData.error
+    }
+
+
+  return (<>{content}</>);
 };
 
 export default CurrentWeather;

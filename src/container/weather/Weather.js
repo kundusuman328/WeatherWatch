@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { initCurrentWeather } from "../../store/currentWeatherSlice";
 import HourlyWeather from "../../component/hourly-weather/HourlyWeather";
 import FiveDayWeather from "../../component/five-day-weather/FiveDayWeather";
+import { initHourlyWeather } from "../../store/hourlyWeatherSlice";
 
 const Weather = () => {
   const dispatch = useDispatch()
@@ -19,7 +20,12 @@ const Weather = () => {
           lat:position.coords.latitude,
           lng:position.coords.longitude
         }))
+        dispatch(initHourlyWeather({
+          lat:position.coords.latitude,
+          lng:position.coords.longitude
+        }))
       });
+      
     }
   }, [dispatch])
   
