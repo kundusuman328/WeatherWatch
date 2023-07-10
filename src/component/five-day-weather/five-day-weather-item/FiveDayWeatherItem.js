@@ -48,7 +48,7 @@ const FiveDayWeatherItem = (props) => {
         </div>
   
         <div className="next-5-days__wind">
-          {props.wind}mph
+          {props.wind}kmph
           <div className="next-5-days__label">Wind</div>
         </div>
       </div>

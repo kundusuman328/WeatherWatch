@@ -1,48 +1,44 @@
-import React from 'react'
-import FiveDayWeatherItem from './five-day-weather-item/FiveDayWeatherItem'
-import getIcon from '../../utils/getIcon'
+import React from "react";
+import FiveDayWeatherItem from "./five-day-weather-item/FiveDayWeatherItem";
+import getIcon from "../../utils/getIcon";
 
-import "./FiveDayWeather.css"
+import "./FiveDayWeather.css";
+import { useSelector } from "react-redux";
+import Spinner from "../Spinner/Spinner";
+
 const FiveDayWeather = () => {
-    return (
+  const data = useSelector((state) => state.hourlyWeather);
+
+  const weatherItems = data.fiveDayData.map((item) => (
+    <FiveDayWeatherItem
+      date={item.date}
+      icon={getIcon(item.icon)}
+      low={item.low}
+      high={item.high}
+      rain={item.rain}
+      wind={item.wind}
+    />
+  ));
+
+  let content;
+  if (data.status === "loading") {
+    content = <Spinner />;
+  } else if (data.status === "succeeded") {
+    content = (
+      <>
         <div className="next-5-days">
           <h2 className="next-5-days__heading">Next 5 days</h2>
           <div className="next-5-days__container">
-            <FiveDayWeatherItem
-              date="1589932800"
-              icon={getIcon("02d")}
-              low="28"
-              high="30"
-              rain="80"
-              wind="7"
-            />
-            <FiveDayWeatherItem
-              date="1589932800"
-              icon={getIcon("02d")}
-              low="28"
-              high="30"
-              rain="80"
-              wind="7"
-            />
-            <FiveDayWeatherItem
-              date="1589932800"
-              icon={getIcon("02d")}
-              low="28"
-              high="30"
-              rain="80"
-              wind="7"
-            />
-            <FiveDayWeatherItem
-              date="1589932800"
-              icon={getIcon("02d")}
-              low="28"
-              high="30"
-              rain="80"
-              wind="7"
-            />
+            {weatherItems}
           </div>
         </div>
-      )
-}
+      </>
+    );
+  } else if (data.status === "failed") {
+    content = data.error;
+  }
 
-export default FiveDayWeather
+  return <>{content}</>;
+};
+
+export default FiveDayWeather;
