@@ -36,12 +36,10 @@ const currentWeatherSlice = createSlice({
             state.icon = action.payload.weather[0].icon
             state.temperature = parseInt(action.payload.main.temp - 273.15)
             state.summary = action.payload.weather[0].description
-            state.feels_like = parseInt(action.payload.main.feels_like - 273.15)
             state.rain = action.payload.clouds.all
             state.wind = parseInt(action.payload.wind.speed * 3.6)
-            state.direction = parseInt(action.payload.wind.deg)
-            state.sunrise = action.payload.sys.sunrise
-            state.sunset = action.payload.sys.sunset
+            state.airPressure = (action.payload.main.pressure * 0.0145038).toFixed(3)
+            state.humidity = action.payload.main.humidity
             state.status = "succeeded"
         })
         .addCase(initCurrentWeather.pending, (state,action) => {

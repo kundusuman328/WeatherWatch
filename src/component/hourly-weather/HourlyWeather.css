@@ -12,7 +12,7 @@
   
   .weather-by-hour__container {
     display: flex;
-    justify-content: left;
+    justify-content: space-between;
   }
   
   .weather-by-hour__heading {
