@@ -2,7 +2,7 @@
 
 A weather simple forcast app using Reactjs and Openweathermap api.
 
-#### Screemshots
+#### Screenshots
 ![localhost_3000_(LAPTOP)](https://github.com/kundusuman328/WeatherWatch/assets/114277300/04dbb2d1-9272-42e8-8351-de0a6024b879)
 ![localhost_3000_(iPad Mini)](https://github.com/kundusuman328/WeatherWatch/assets/114277300/1dee06e5-15a9-44a7-aa0a-e5efee3cdbfd)
 ![localhost_3000_(iPhone XR)](https://github.com/kundusuman328/WeatherWatch/assets/114277300/472b7e1d-8052-4dfe-93b9-4e486d7c2082)
